@@ -11,7 +11,7 @@ A Bash script that analyzes basic server performance statistics including:
 
 ## Project URL
 
-https://github.com/mahodi-mr2107371/devops-server-state/blob/main/server-stats.sh
+https://roadmap.sh/projects/server-stats
 
 ## Usage
 
