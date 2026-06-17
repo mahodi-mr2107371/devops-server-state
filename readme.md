@@ -2,6 +2,11 @@
 
 A simple command-line utility for archiving log directories by compressing them into timestamped `.tar.gz` files. This helps keep systems clean while preserving historical logs for future reference.
 
+## URL
+
+https://roadmap.sh/projects/log-archive-tool
+
+
 ## Features
 
 - Archive any log directory from the command line
