@@ -16,6 +16,9 @@ The script uses standard Linux command-line utilities such as:
 * uniq
 * head
 
+## Project URL
+https://roadmap.sh/projects/nginx-log-analyser
+
 ## Requirements
 
 * Linux/macOS terminal
