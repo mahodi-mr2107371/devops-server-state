@@ -1,163 +1,143 @@
-# Nginx Log Analyzer
+# GitHub Pages Deployment Workflow
 
 ## Overview
 
-This project is a simple Bash script that analyzes an Nginx access log file and displays:
+This project demonstrates Continuous Integration (CI) and Continuous Deployment (CD) using GitHub Actions.
 
-* Top 5 IP addresses with the most requests
-* Top 5 most requested paths
-* Top 5 response status codes
-* Top 5 user agents
+Whenever the `index.html` file is updated and pushed to the `main` branch, GitHub Actions automatically deploys the website to GitHub Pages.
 
-The script uses standard Linux command-line utilities such as:
+## Features
 
-* awk
-* sort
-* uniq
-* head
+* Automatic deployment with GitHub Actions
+* Hosted on GitHub Pages
+* Deploys only when `index.html` changes
+* No manual deployment steps required
 
-## Project URL
-https://roadmap.sh/projects/nginx-log-analyser
-
-## Requirements
-
-* Linux/macOS terminal
-* Bash shell
-* Nginx access log file
-
-## Project Files
+## Project Structure
 
 ```text
-.
-├── log_analyzer.sh
-├── access.log
-└── README.md
-```
-
-## Usage
-
-Make the script executable:
-
-```bash
-chmod +x log_analyzer.sh
-```
-
-Run the script:
-
-```bash
-./log_analyzer.sh access.log
-```
-
-## Example Output
-
-```text
-Top 5 IP addresses with the most requests:
-45.76.135.253 - 1000 requests
-142.93.143.8 - 600 requests
-178.128.94.113 - 50 requests
-43.224.43.187 - 30 requests
-178.128.94.113 - 20 requests
-
-Top 5 most requested paths:
-/api/v1/users - 1000 requests
-/api/v1/products - 600 requests
-/api/v1/orders - 50 requests
-/api/v1/payments - 30 requests
-/api/v1/reviews - 20 requests
-
-Top 5 response status codes:
-200 - 1000 requests
-404 - 600 requests
-500 - 50 requests
-401 - 30 requests
-304 - 20 requests
-
-Top 5 user agents:
-Mozilla/5.0 (...) - 500 requests
-curl/7.68.0 - 300 requests
-PostmanRuntime/7.29.0 - 200 requests
-Python-requests/2.28.1 - 150 requests
-Go-http-client/1.1 - 100 requests
+gh-deployment-workflow/
+│
+├── index.html
+├── README.md
+│
+└── .github/
+    └── workflows/
+        └── deploy.yml
 ```
 
 ## How It Works
 
-### Top IP Addresses
+The workflow is triggered when:
 
-Extracts the first field (IP address):
+* A push is made to the `main` branch
+* The push includes changes to `index.html`
 
-```bash
-awk '{print $1}'
+Workflow steps:
+
+1. Check out the repository
+2. Configure GitHub Pages
+3. Upload website files as an artifact
+4. Deploy the site to GitHub Pages
+
+## Setup Instructions
+
+### 1. Create Repository
+
+Create a GitHub repository named:
+
+```text
+gh-deployment-workflow
 ```
 
-Counts occurrences:
+### 2. Add Files
+
+Add:
+
+* `index.html`
+* `README.md`
+* `.github/workflows/deploy.yml`
+
+### 3. Push to GitHub
 
 ```bash
-sort | uniq -c | sort -rn
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/<username>/gh-deployment-workflow.git
+git push -u origin main
 ```
 
-### Top Requested Paths
+### 4. Enable GitHub Pages
 
-Extracts the HTTP request field:
+Go to:
+
+Settings → Pages
+
+Under Source:
+
+* Select "GitHub Actions"
+
+### 5. Verify Deployment
+
+After the workflow completes successfully, the website will be available at:
+
+```text
+https://<username>.github.io/gh-deployment-workflow/
+```
+
+## Example
+
+If you modify:
+
+```html
+<h1>Hello, GitHub Actions!</h1>
+```
+
+to
+
+```html
+<h1>Hello, CI/CD World!</h1>
+```
+
+and push the change:
 
 ```bash
-awk -F'"' '{print $2}'
+git add .
+git commit -m "Update homepage"
+git push
 ```
 
-Extracts only the path:
+GitHub Actions automatically redeploys the website.
 
-```bash
-awk '{print $2}'
-```
+## CI/CD Concepts Demonstrated
 
-### Top Status Codes
+### Continuous Integration (CI)
 
-Extracts the HTTP status code:
+Every code change pushed to the repository triggers an automated workflow.
 
-```bash
-awk '{print $9}'
-```
+### Continuous Deployment (CD)
 
-### Top User Agents
-
-Extracts the user-agent string:
-
-```bash
-awk -F'"' '{print $6}'
-```
-
-## Alternative Solution (Without awk)
-
-Example for counting IP addresses using grep, cut, and sort:
-
-```bash
-cut -d' ' -f1 access.log \
-| sort \
-| uniq -c \
-| sort -rn \
-| head -5
-```
-
-Example for extracting status codes:
-
-```bash
-grep -o '" [0-9][0-9][0-9] ' access.log \
-| tr -d '"' \
-| sort \
-| uniq -c \
-| sort -rn \
-| head -5
-```
+Successful workflow execution automatically deploys the website without manual intervention.
 
 ## Stretch Goal Ideas
 
-* Accept the number of results as a parameter.
-* Export results to a file.
-* Display percentages.
-* Add support for compressed logs (.gz).
-* Generate CSV reports.
-* Create charts using gnuplot.
+* Create a personal portfolio website
+* Use Jekyll for blog generation
+* Use Hugo for a static site
+* Use Astro for a modern frontend
+* Add custom domain support
+* Add automated tests before deployment
+* Add HTML validation checks
 
-## License
+## Technologies Used
 
-This project is for educational purposes.
+* HTML
+* GitHub Actions
+* GitHub Pages
+* YAML
+
+## Author
+
+Created as part of a DevOps and GitHub Actions learning project.
